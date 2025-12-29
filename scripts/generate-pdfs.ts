@@ -136,20 +136,30 @@ const generatePDFs = async () => {
     console.log('All PDFs generated successfully!')
   } finally {
     await browser.close()
+    console.log('Browser closed.')
+    
     if (previewProcess.pid) {
+      console.log('Stopping preview server...')
       previewProcess.kill('SIGTERM')
       // Wait a bit for graceful shutdown
       await new Promise(resolve => setTimeout(resolve, 2000))
-      if (!previewProcess.killed) {
+      if (previewProcess.killed === false) {
+        console.log('Force killing preview server...')
         previewProcess.kill('SIGKILL')
+        await new Promise(resolve => setTimeout(resolve, 500))
       }
+      console.log('Server stopped.')
     }
-    console.log('Browser closed and server stopped.')
   }
 }
 
-generatePDFs().catch(error => {
-  console.error('Error during PDF generation:', error)
-  process.exit(1)
-})
+generatePDFs()
+  .then(() => {
+    console.log('PDF generation completed successfully.')
+    process.exit(0)
+  })
+  .catch(error => {
+    console.error('Error during PDF generation:', error)
+    process.exit(1)
+  })
 
