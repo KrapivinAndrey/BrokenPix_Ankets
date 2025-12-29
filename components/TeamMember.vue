@@ -118,6 +118,7 @@ const handleImageError = () => {
   box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 30px rgba(0, 240, 255, 0.1);
   position: relative;
   animation: fade-in 0.6s ease-out;
+  min-height: 900px;
 }
 
 .cyber-card::before {
