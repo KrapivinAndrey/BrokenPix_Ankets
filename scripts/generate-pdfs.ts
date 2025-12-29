@@ -98,7 +98,8 @@ const generatePDFs = async () => {
       console.log(`Generating PDF for ${member.fullName} (ID: ${member.id})...`)
       
       // Preview server typically doesn't use baseURL, so we use direct path
-      const url = `${serverUrl}/${member.id}`
+      // Add ?pdf=true parameter to hide navigation and optimize for printing
+      const url = `${serverUrl}/${member.id}?pdf=true`
       console.log(`Opening: ${url}`)
       
       try {
@@ -120,10 +121,10 @@ const generatePDFs = async () => {
           format: 'A4',
           printBackground: true,
           margin: {
-            top: '20mm',
-            right: '20mm',
-            bottom: '20mm',
-            left: '20mm'
+            top: '10mm',
+            right: '10mm',
+            bottom: '10mm',
+            left: '10mm'
           }
         })
 

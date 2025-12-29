@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen bg-cyber-dark">
     <!-- Navigation -->
-    <nav class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-b-2 border-cyber-blue">
+    <nav v-if="!isPdfMode" class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-b-2 border-cyber-blue">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
         <div class="text-cyber-blue font-bold text-xl">
           BrokenPix Robotics
@@ -30,7 +30,7 @@
     </nav>
 
     <!-- Member Content -->
-    <div class="pt-20">
+    <div :class="{ 'pt-20': !isPdfMode }">
       <TeamMember v-if="member" :member="member" />
       <div v-else class="min-h-screen flex items-center justify-center">
         <div class="text-cyber-blue text-2xl animate-glow-pulse">
@@ -47,6 +47,10 @@ import type { TeamMember } from '~/types/member'
 
 const route = useRoute()
 const router = useRouter()
+
+const isPdfMode = computed(() => {
+  return route.query.pdf === 'true'
+})
 
 const memberId = computed(() => {
   const id = parseInt(route.params.id as string)
@@ -150,6 +154,17 @@ onUnmounted(() => {
 .cyber-button:focus-visible {
   outline: 2px solid #00f0ff;
   outline-offset: 2px;
+}
+
+@media print {
+  .min-h-screen {
+    min-height: auto;
+  }
+  
+  body {
+    background: white;
+    color: black;
+  }
 }
 </style>
 

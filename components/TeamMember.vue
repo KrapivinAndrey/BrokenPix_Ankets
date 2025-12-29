@@ -257,5 +257,128 @@ const handleImageError = () => {
     filter: brightness(1.3);
   }
 }
+
+@media print {
+  /* Reset animations and effects */
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+  
+  /* Optimize container */
+  .min-h-screen {
+    min-height: auto;
+    padding: 0 !important;
+  }
+  
+  .max-w-4xl {
+    max-width: 100%;
+  }
+  
+  /* Optimize card */
+  .cyber-card {
+    border-radius: 0;
+    box-shadow: none;
+    border: 1px solid #000;
+    background: white !important;
+  }
+  
+  .cyber-card::before {
+    display: none;
+  }
+  
+  .grid-pattern {
+    display: none;
+  }
+  
+  /* Optimize content padding */
+  .relative.z-10 {
+    padding: 1rem !important;
+  }
+  
+  /* Optimize photo size */
+  .mb-8.flex.justify-center > div {
+    width: 120px !important;
+    height: 120px !important;
+    margin-bottom: 1rem !important;
+  }
+  
+  /* Optimize heading */
+  h1 {
+    font-size: 1.75rem !important;
+    margin-bottom: 1rem !important;
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  
+  .cyber-text-glow {
+    text-shadow: none !important;
+    color: #000 !important;
+  }
+  
+  /* Optimize info items spacing */
+  .space-y-6 {
+    gap: 0.75rem !important;
+  }
+  
+  .space-y-6 > * {
+    margin-bottom: 0.75rem !important;
+  }
+  
+  .cyber-info-item {
+    padding-left: 0.75rem !important;
+    padding-top: 0.25rem !important;
+    padding-bottom: 0.25rem !important;
+    margin-bottom: 0.5rem !important;
+    border-left: 2px solid #000 !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+  
+  .cyber-label {
+    font-size: 0.75rem !important;
+    margin-bottom: 0.25rem !important;
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  
+  .cyber-value {
+    font-size: 0.875rem !important;
+    line-height: 1.4 !important;
+    color: #000 !important;
+  }
+  
+  .cyber-text-accent {
+    color: #000 !important;
+    text-shadow: none !important;
+  }
+  
+  /* Remove decorative elements */
+  .animate-pulse,
+  .animate-glow-pulse {
+    animation: none !important;
+  }
+  
+  /* Ensure text is black for printing */
+  .text-white {
+    color: #000 !important;
+  }
+  
+  .bg-cyber-dark {
+    background: white !important;
+  }
+  
+  .bg-cyber-dark-secondary {
+    background: #f5f5f5 !important;
+  }
+  
+  .border-cyber-blue {
+    border-color: #000 !important;
+  }
+  
+  .text-cyber-blue {
+    color: #000 !important;
+  }
+}
 </style>
 
