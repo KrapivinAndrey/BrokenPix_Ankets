@@ -91,7 +91,13 @@ const photoUrl = computed(() => {
   if (props.member.photo) return props.member.photo
   
   const format = imageFormats[currentFormatIndex.value]
-  return `/photos/${props.member.id}.${format}`
+  // Use baseURL from Nuxt config (set in nuxt.config.ts)
+  // For GitHub Pages, this will be '/BrokenPix_Ankets/'
+  const config = useRuntimeConfig()
+  const baseURL = config.public?.baseURL || config.app?.baseURL || '/BrokenPix_Ankets/'
+  // Ensure baseURL ends with /
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : `${baseURL}/`
+  return `${normalizedBaseURL}photos/${props.member.id}.${format}`
 })
 
 const handleImageError = () => {

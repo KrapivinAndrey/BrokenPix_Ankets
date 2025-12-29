@@ -7,6 +7,11 @@ export default defineNuxtConfig({
   app: {
     baseURL: '/BrokenPix_Ankets/',
     buildAssetsDir: 'assets'
+  },
+  runtimeConfig: {
+    public: {
+      baseURL: '/BrokenPix_Ankets/'
+    }
   }
 })
 

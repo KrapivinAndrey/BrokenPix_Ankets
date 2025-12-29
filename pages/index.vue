@@ -83,7 +83,13 @@ const getFormatIndex = (memberId: number): number => {
 const getPhotoUrl = (member: typeof members[0], formatIndex: number = 0): string => {
   if (member.photo) return member.photo
   const format = imageFormats[formatIndex]
-  return `/photos/${member.id}.${format}`
+  // Use baseURL from Nuxt config (set in nuxt.config.ts)
+  // For GitHub Pages, this will be '/BrokenPix_Ankets/'
+  const config = useRuntimeConfig()
+  const baseURL = config.public?.baseURL || config.app?.baseURL || '/BrokenPix_Ankets/'
+  // Ensure baseURL ends with /
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : `${baseURL}/`
+  return `${normalizedBaseURL}photos/${member.id}.${format}`
 }
 
 const handleImageError = (event: Event, memberId: number) => {
