@@ -3,8 +3,15 @@
     <!-- Navigation -->
     <nav class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-b-2 border-cyber-blue">
       <div class="max-w-7xl mx-auto px-4 py-4">
-        <div class="text-cyber-blue font-bold text-xl">
-          BrokenPix Robotics
+        <div class="flex items-center gap-3">
+          <img 
+            :src="getLogoUrl()" 
+            alt="Broken Pixels Logo" 
+            class="h-10 w-auto"
+          />
+          <div class="text-cyber-blue font-bold text-xl">
+            Broken Pixels. Робокод. Екатеринбург
+          </div>
         </div>
       </div>
     </nav>
@@ -12,9 +19,16 @@
     <!-- Members Grid -->
     <div class="pt-24 pb-12 px-4">
       <div class="max-w-7xl mx-auto">
-        <h1 class="text-4xl md:text-5xl font-bold text-center mb-12 cyber-text-glow">
-          Команда BrokenPix
-        </h1>
+        <div class="flex flex-col items-center mb-12">
+          <img 
+            :src="getLogoUrl()" 
+            alt="Broken Pixels Logo" 
+            class="h-24 w-auto mb-6"
+          />
+          <h1 class="text-4xl md:text-5xl font-bold text-center cyber-text-glow">
+            Broken Pixels. Робокод. Екатеринбург
+          </h1>
+        </div>
         
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div
@@ -90,6 +104,13 @@ const getPhotoUrl = (member: typeof members[0], formatIndex: number = 0): string
   // Ensure baseURL ends with /
   const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : `${baseURL}/`
   return `${normalizedBaseURL}photos/${member.id}.${format}`
+}
+
+const getLogoUrl = (): string => {
+  const config = useRuntimeConfig()
+  const baseURL = config.public?.baseURL || config.app?.baseURL || '/BrokenPix_Ankets/'
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : `${baseURL}/`
+  return `${normalizedBaseURL}logo/logo.png`
 }
 
 const handleImageError = (event: Event, memberId: number) => {

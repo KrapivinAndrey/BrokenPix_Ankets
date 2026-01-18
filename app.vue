@@ -6,9 +6,9 @@
 
 <script setup lang="ts">
 useHead({
-  title: 'BrokenPix Robotics - Команда по робототехнике',
+  title: 'Broken Pixels. Робокод. Екатеринбург - Команда по робототехнике',
   meta: [
-    { name: 'description', content: 'Сайт-визитка команды BrokenPix по робототехнике' },
+    { name: 'description', content: 'Сайт-визитка команды Broken Pixels. Робокод. Екатеринбург по робототехнике' },
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ],
   htmlAttrs: {

@@ -6,8 +6,15 @@
     <!-- Navigation -->
     <nav v-if="!isPdfMode" class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-b-2 border-cyber-blue">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
-        <div class="text-cyber-blue font-bold text-xl">
-          BrokenPix Robotics
+        <div class="flex items-center gap-3">
+          <img 
+            :src="getLogoUrl()" 
+            alt="Broken Pixels Logo" 
+            class="h-10 w-auto"
+          />
+          <div class="text-cyber-blue font-bold text-xl">
+            Broken Pixels. Робокод. Екатеринбург
+          </div>
         </div>
         <div class="flex gap-4">
           <button
@@ -117,6 +124,13 @@ const handleKeyPress = (event: KeyboardEvent) => {
     event.preventDefault()
     handlePrevious()
   }
+}
+
+const getLogoUrl = (): string => {
+  const config = useRuntimeConfig()
+  const baseURL = config.public?.baseURL || config.app?.baseURL || '/BrokenPix_Ankets/'
+  const normalizedBaseURL = baseURL.endsWith('/') ? baseURL : `${baseURL}/`
+  return `${normalizedBaseURL}logo/logo.png`
 }
 
 onMounted(() => {
