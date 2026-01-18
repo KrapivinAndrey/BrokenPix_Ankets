@@ -1,29 +1,6 @@
 <template>
   <Transition name="glitch-fade">
-    <div v-if="show" class="glitch-overlay fixed inset-0 pointer-events-none z-[9999]">
-      <!-- RGB Split Effect -->
-      <div class="glitch-rgb-split">
-        <div class="glitch-layer glitch-red"></div>
-        <div class="glitch-layer glitch-green"></div>
-        <div class="glitch-layer glitch-blue"></div>
-      </div>
-      
-      <!-- Glitch Lines -->
-      <div class="glitch-lines">
-        <div
-          v-for="line in lines"
-          :key="line.id"
-          class="glitch-line"
-          :style="{
-            top: `${line.top}%`,
-            height: `${line.height}px`,
-            animationDelay: `${line.delay}ms`,
-            animationDuration: `${line.duration}ms`,
-            animationIterationCount: 'infinite'
-          }"
-        />
-      </div>
-      
+    <div v-if="show" class="glitch-overlay fixed inset-0 pointer-events-none z-[10000]">
       <!-- Broken Pixels -->
       <div class="glitch-pixels">
         <div
@@ -37,8 +14,7 @@
             width: `${pixel.size}px`,
             height: `${pixel.size}px`,
             animationDelay: `${pixel.delay}ms`,
-            animationDuration: `${pixel.duration}ms`,
-            animationIterationCount: 'infinite'
+            animationDuration: `${pixel.duration}ms`
           }"
         />
       </div>
@@ -65,19 +41,9 @@ interface Pixel {
   duration: number
 }
 
-interface Line {
-  id: number
-  top: number
-  height: number
-  delay: number
-  duration: number
-}
-
-const pixelCount = 500
-const lineCount = 25
-const colors = ['#00f0ff', '#ff00ff', '#00ff41', '#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff']
+const pixelCount = 600
+const colors = ['#00f0ff', '#ff00ff', '#00ff41', '#ffffff', '#ff0000', '#00ff00', '#0000ff', '#ffff00', '#ff0080']
 const pixels = ref<Pixel[]>([])
-const lines = ref<Line[]>([])
 
 const generatePixels = () => {
   const newPixels: Pixel[] = []
@@ -87,26 +53,12 @@ const generatePixels = () => {
       x: Math.random() * 100,
       y: Math.random() * 100,
       color: colors[Math.floor(Math.random() * colors.length)],
-      size: 2 + Math.random() * 6,
-      delay: Math.random() * 500,
-      duration: 2000 + Math.random() * 2000
+      size: 6 + Math.random() * 14,
+      delay: Math.random() * 300,
+      duration: 500 + Math.random() * 800
     })
   }
   pixels.value = newPixels
-}
-
-const generateLines = () => {
-  const newLines: Line[] = []
-  for (let i = 0; i < lineCount; i++) {
-    newLines.push({
-      id: i,
-      top: Math.random() * 100,
-      height: 1 + Math.random() * 3,
-      delay: Math.random() * 500,
-      duration: 1500 + Math.random() * 1500
-    })
-  }
-  lines.value = newLines
 }
 
 onMounted(() => {
@@ -117,12 +69,10 @@ watch(() => props.show, (newValue) => {
   if (newValue) {
     // Сброс и регенерация элементов для перезапуска анимаций
     pixels.value = []
-    lines.value = []
     
     // Используем nextTick для гарантии, что DOM обновится
     nextTick(() => {
       generatePixels()
-      generateLines()
     })
   }
 })
@@ -132,170 +82,9 @@ watch(() => props.show, (newValue) => {
 .glitch-overlay {
   background: transparent;
   overflow: hidden;
-  will-change: transform, opacity;
+  will-change: contents;
   transform: translateZ(0);
   backface-visibility: hidden;
-}
-
-/* RGB Split Effect */
-.glitch-rgb-split {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.glitch-layer {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  mix-blend-mode: screen;
-  animation: glitch-rgb-split 3s ease-out infinite;
-}
-
-.glitch-red {
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 0, 0.5) 50%, transparent 100%);
-}
-
-.glitch-green {
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 0, 0.5) 50%, transparent 100%);
-}
-
-.glitch-blue {
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 255, 0.5) 50%, transparent 100%);
-}
-
-@keyframes glitch-rgb-split {
-  0% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-  5% {
-    transform: translateX(-8px);
-    opacity: 0.8;
-  }
-  10% {
-    transform: translateX(8px);
-    opacity: 1;
-  }
-  15% {
-    transform: translateX(-6px);
-    opacity: 0.9;
-  }
-  20% {
-    transform: translateX(6px);
-    opacity: 1;
-  }
-  25% {
-    transform: translateX(-4px);
-    opacity: 0.8;
-  }
-  30% {
-    transform: translateX(4px);
-    opacity: 1;
-  }
-  35% {
-    transform: translateX(-3px);
-    opacity: 0.9;
-  }
-  40% {
-    transform: translateX(3px);
-    opacity: 1;
-  }
-  45% {
-    transform: translateX(-2px);
-    opacity: 0.8;
-  }
-  50% {
-    transform: translateX(2px);
-    opacity: 1;
-  }
-  55% {
-    transform: translateX(-1px);
-    opacity: 0.9;
-  }
-  60% {
-    transform: translateX(1px);
-    opacity: 0.8;
-  }
-  65% {
-    transform: translateX(-1px);
-    opacity: 0.7;
-  }
-  70% {
-    transform: translateX(1px);
-    opacity: 0.6;
-  }
-  80% {
-    transform: translateX(0);
-    opacity: 0.4;
-  }
-  90% {
-    transform: translateX(0);
-    opacity: 0.2;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 0;
-  }
-}
-
-/* Glitch Lines */
-.glitch-lines {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-
-.glitch-line {
-  position: absolute;
-  left: 0;
-  right: 0;
-  width: 100%;
-  background: linear-gradient(90deg, 
-    transparent 0%,
-    rgba(0, 240, 255, 0.9) 20%,
-    rgba(255, 0, 255, 0.9) 50%,
-    rgba(0, 255, 65, 0.9) 80%,
-    transparent 100%
-  );
-  animation-name: glitch-line-animation;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.6);
-  will-change: transform, opacity;
-  transform: translateZ(0);
-}
-
-@keyframes glitch-line-animation {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  20% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  40% {
-    opacity: 0.8;
-    transform: translateX(10px);
-  }
-  60% {
-    opacity: 1;
-    transform: translateX(-5px);
-  }
-  80% {
-    opacity: 0.6;
-    transform: translateX(5px);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
 }
 
 /* Broken Pixels */
@@ -309,89 +98,139 @@ watch(() => props.show, (newValue) => {
 
 .glitch-pixel {
   position: absolute;
-  animation-name: glitch-pixel-animation;
-  animation-timing-function: ease-in-out;
-  animation-iteration-count: infinite;
+  animation: glitch-pixel-animation;
   opacity: 0;
-  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
-  border-radius: 1px;
+  box-shadow: 
+    0 0 12px currentColor, 
+    0 0 24px currentColor, 
+    0 0 36px currentColor,
+    0 0 48px currentColor,
+    0 0 60px currentColor;
+  border-radius: 3px;
+  filter: brightness(2) saturate(1.5) contrast(1.2);
   will-change: transform, opacity;
   transform: translateZ(0);
+  border: 2px solid currentColor;
+  mix-blend-mode: screen;
 }
 
 @keyframes glitch-pixel-animation {
   0% {
     opacity: 0;
-    transform: scale(0) translate(0, 0);
+    transform: scale(0);
   }
-  5% {
+  3% {
     opacity: 1;
-    transform: scale(2) translate(-2px, -2px);
+    transform: scale(1.8);
   }
-  10% {
+  6% {
     opacity: 1;
-    transform: scale(1.5) translate(2px, 2px);
+    transform: scale(1.5);
+  }
+  9% {
+    opacity: 1;
+    transform: scale(1.7);
+  }
+  12% {
+    opacity: 1;
+    transform: scale(1.3);
   }
   15% {
-    opacity: 0.9;
-    transform: scale(1.2) translate(-1px, 1px);
-  }
-  20% {
     opacity: 1;
-    transform: scale(1.8) translate(1px, -1px);
+    transform: scale(1.6);
   }
-  25% {
-    opacity: 0.8;
-    transform: scale(1) translate(0, 0);
+  18% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  21% {
+    opacity: 1;
+    transform: scale(1.4);
+  }
+  24% {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+  27% {
+    opacity: 1;
+    transform: scale(1.3);
   }
   30% {
     opacity: 1;
-    transform: scale(1.6) translate(-3px, 3px);
+    transform: scale(1);
   }
-  35% {
-    opacity: 0.7;
-    transform: scale(0.9) translate(3px, -3px);
+  33% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  36% {
+    opacity: 1;
+    transform: scale(1.05);
   }
   40% {
     opacity: 1;
-    transform: scale(1.4) translate(-2px, -2px);
+    transform: scale(1.1);
   }
   45% {
-    opacity: 0.6;
-    transform: scale(0.8) translate(2px, 2px);
+    opacity: 1;
+    transform: scale(1);
   }
   50% {
     opacity: 1;
-    transform: scale(1.7) translate(-1px, 1px);
+    transform: scale(1.05);
+  }
+  55% {
+    opacity: 0.98;
+    transform: scale(0.98);
   }
   60% {
-    opacity: 0.5;
-    transform: scale(0.7) translate(1px, -1px);
+    opacity: 0.95;
+    transform: scale(0.95);
+  }
+  65% {
+    opacity: 0.98;
+    transform: scale(1);
   }
   70% {
-    opacity: 0.8;
-    transform: scale(1.3) translate(-2px, 2px);
+    opacity: 0.9;
+    transform: scale(0.9);
+  }
+  75% {
+    opacity: 0.95;
+    transform: scale(0.95);
   }
   80% {
-    opacity: 0.4;
-    transform: scale(0.6) translate(2px, -2px);
+    opacity: 0.85;
+    transform: scale(0.85);
+  }
+  85% {
+    opacity: 0.75;
+    transform: scale(0.75);
   }
   90% {
-    opacity: 0.3;
-    transform: scale(0.5) translate(0, 0);
+    opacity: 0.6;
+    transform: scale(0.6);
+  }
+  93% {
+    opacity: 0.4;
+    transform: scale(0.4);
+  }
+  96% {
+    opacity: 0.25;
+    transform: scale(0.25);
   }
   100% {
     opacity: 0;
-    transform: scale(0) translate(0, 0);
+    transform: scale(0);
   }
 }
 
 .glitch-fade-enter-active {
-  transition: opacity 2s ease-in;
+  transition: opacity 0.1s ease-in;
 }
 
 .glitch-fade-leave-active {
-  transition: opacity 5s ease-out;
+  transition: opacity 0.2s ease-out;
 }
 
 .glitch-fade-enter-from,

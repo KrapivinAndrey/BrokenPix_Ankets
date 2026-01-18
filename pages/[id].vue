@@ -33,7 +33,7 @@
     </nav>
 
     <!-- Member Content -->
-    <div :class="{ 'pt-20': !isPdfMode }">
+    <div :class="{ 'pt-20': !isPdfMode, 'glitch-content': showGlitch }">
       <TeamMember v-if="member" :member="member" />
       <div v-else class="min-h-screen flex items-center justify-center">
         <div class="text-cyber-blue text-2xl animate-glow-pulse">
@@ -174,6 +174,44 @@ onUnmounted(() => {
 .cyber-button:focus-visible {
   outline: 2px solid #00f0ff;
   outline-offset: 2px;
+}
+
+.glitch-content {
+  animation: glitch-shake 0.1s infinite;
+  filter: contrast(1.1) brightness(1.05);
+}
+
+@keyframes glitch-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10% {
+    transform: translateX(-2px);
+  }
+  20% {
+    transform: translateX(2px);
+  }
+  30% {
+    transform: translateX(-1px);
+  }
+  40% {
+    transform: translateX(1px);
+  }
+  50% {
+    transform: translateX(-1px);
+  }
+  60% {
+    transform: translateX(1px);
+  }
+  70% {
+    transform: translateX(-0.5px);
+  }
+  80% {
+    transform: translateX(0.5px);
+  }
+  90% {
+    transform: translateX(0);
+  }
 }
 
 @media print {
