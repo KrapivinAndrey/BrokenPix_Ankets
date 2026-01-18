@@ -76,7 +76,7 @@ const activateGlitch = () => {
   showGlitch.value = true
   setTimeout(() => {
     showGlitch.value = false
-  }, 15000)
+  }, 3000)
 }
 
 const handleNext = () => {

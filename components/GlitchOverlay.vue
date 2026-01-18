@@ -88,8 +88,8 @@ const generatePixels = () => {
       y: Math.random() * 100,
       color: colors[Math.floor(Math.random() * colors.length)],
       size: 2 + Math.random() * 6,
-      delay: Math.random() * 2000,
-      duration: 5000 + Math.random() * 5000
+      delay: Math.random() * 500,
+      duration: 2000 + Math.random() * 2000
     })
   }
   pixels.value = newPixels
@@ -102,8 +102,8 @@ const generateLines = () => {
       id: i,
       top: Math.random() * 100,
       height: 1 + Math.random() * 3,
-      delay: Math.random() * 2000,
-      duration: 4000 + Math.random() * 4000
+      delay: Math.random() * 500,
+      duration: 1500 + Math.random() * 1500
     })
   }
   lines.value = newLines
@@ -152,7 +152,7 @@ watch(() => props.show, (newValue) => {
   width: 100%;
   height: 100%;
   mix-blend-mode: screen;
-  animation: glitch-rgb-split 12s ease-out infinite;
+  animation: glitch-rgb-split 3s ease-out infinite;
 }
 
 .glitch-red {
