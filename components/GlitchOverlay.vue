@@ -18,7 +18,8 @@
             top: `${line.top}%`,
             height: `${line.height}px`,
             animationDelay: `${line.delay}ms`,
-            animationDuration: `${line.duration}ms`
+            animationDuration: `${line.duration}ms`,
+            animationIterationCount: 'infinite'
           }"
         />
       </div>
@@ -36,7 +37,8 @@
             width: `${pixel.size}px`,
             height: `${pixel.size}px`,
             animationDelay: `${pixel.delay}ms`,
-            animationDuration: `${pixel.duration}ms`
+            animationDuration: `${pixel.duration}ms`,
+            animationIterationCount: 'infinite'
           }"
         />
       </div>
@@ -45,7 +47,7 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, ref, watch } from 'vue'
+import { onMounted, ref, watch, nextTick } from 'vue'
 
 interface Props {
   show: boolean
@@ -71,8 +73,8 @@ interface Line {
   duration: number
 }
 
-const pixelCount = 300
-const lineCount = 15
+const pixelCount = 500
+const lineCount = 25
 const colors = ['#00f0ff', '#ff00ff', '#00ff41', '#ffffff', '#000000', '#ff0000', '#00ff00', '#0000ff']
 const pixels = ref<Pixel[]>([])
 const lines = ref<Line[]>([])
@@ -86,8 +88,8 @@ const generatePixels = () => {
       y: Math.random() * 100,
       color: colors[Math.floor(Math.random() * colors.length)],
       size: 2 + Math.random() * 6,
-      delay: Math.random() * 4000,
-      duration: 8000 + Math.random() * 6000
+      delay: Math.random() * 2000,
+      duration: 5000 + Math.random() * 5000
     })
   }
   pixels.value = newPixels
@@ -100,8 +102,8 @@ const generateLines = () => {
       id: i,
       top: Math.random() * 100,
       height: 1 + Math.random() * 3,
-      delay: Math.random() * 4000,
-      duration: 7000 + Math.random() * 7000
+      delay: Math.random() * 2000,
+      duration: 4000 + Math.random() * 4000
     })
   }
   lines.value = newLines
@@ -113,8 +115,15 @@ onMounted(() => {
 
 watch(() => props.show, (newValue) => {
   if (newValue) {
-    generatePixels()
-    generateLines()
+    // Сброс и регенерация элементов для перезапуска анимаций
+    pixels.value = []
+    lines.value = []
+    
+    // Используем nextTick для гарантии, что DOM обновится
+    nextTick(() => {
+      generatePixels()
+      generateLines()
+    })
   }
 })
 </script>
@@ -123,6 +132,9 @@ watch(() => props.show, (newValue) => {
 .glitch-overlay {
   background: transparent;
   overflow: hidden;
+  will-change: transform, opacity;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
 
 /* RGB Split Effect */
@@ -140,22 +152,19 @@ watch(() => props.show, (newValue) => {
   width: 100%;
   height: 100%;
   mix-blend-mode: screen;
-  animation: glitch-rgb-split 12s ease-out;
+  animation: glitch-rgb-split 12s ease-out infinite;
 }
 
 .glitch-red {
-  background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 0, 0.3) 50%, transparent 100%);
-  transform: translateX(-2px);
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 0, 0, 0.5) 50%, transparent 100%);
 }
 
 .glitch-green {
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 0, 0.3) 50%, transparent 100%);
-  transform: translateX(0);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 255, 0, 0.5) 50%, transparent 100%);
 }
 
 .glitch-blue {
-  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 255, 0.3) 50%, transparent 100%);
-  transform: translateX(2px);
+  background: linear-gradient(90deg, transparent 0%, rgba(0, 0, 255, 0.5) 50%, transparent 100%);
 }
 
 @keyframes glitch-rgb-split {
@@ -163,37 +172,69 @@ watch(() => props.show, (newValue) => {
     transform: translateX(0);
     opacity: 0;
   }
+  5% {
+    transform: translateX(-8px);
+    opacity: 0.8;
+  }
   10% {
-    transform: translateX(-5px);
+    transform: translateX(8px);
     opacity: 1;
+  }
+  15% {
+    transform: translateX(-6px);
+    opacity: 0.9;
   }
   20% {
-    transform: translateX(5px);
+    transform: translateX(6px);
     opacity: 1;
   }
+  25% {
+    transform: translateX(-4px);
+    opacity: 0.8;
+  }
   30% {
-    transform: translateX(-3px);
+    transform: translateX(4px);
     opacity: 1;
+  }
+  35% {
+    transform: translateX(-3px);
+    opacity: 0.9;
   }
   40% {
     transform: translateX(3px);
     opacity: 1;
   }
-  50% {
+  45% {
     transform: translateX(-2px);
-    opacity: 1;
+    opacity: 0.8;
   }
-  60% {
+  50% {
     transform: translateX(2px);
     opacity: 1;
   }
-  70% {
+  55% {
     transform: translateX(-1px);
+    opacity: 0.9;
+  }
+  60% {
+    transform: translateX(1px);
     opacity: 0.8;
   }
-  80% {
+  65% {
+    transform: translateX(-1px);
+    opacity: 0.7;
+  }
+  70% {
     transform: translateX(1px);
     opacity: 0.6;
+  }
+  80% {
+    transform: translateX(0);
+    opacity: 0.4;
+  }
+  90% {
+    transform: translateX(0);
+    opacity: 0.2;
   }
   100% {
     transform: translateX(0);
@@ -217,13 +258,17 @@ watch(() => props.show, (newValue) => {
   width: 100%;
   background: linear-gradient(90deg, 
     transparent 0%,
-    rgba(0, 240, 255, 0.8) 20%,
-    rgba(255, 0, 255, 0.8) 50%,
-    rgba(0, 255, 65, 0.8) 80%,
+    rgba(0, 240, 255, 0.9) 20%,
+    rgba(255, 0, 255, 0.9) 50%,
+    rgba(0, 255, 65, 0.9) 80%,
     transparent 100%
   );
-  animation: glitch-line-animation;
-  box-shadow: 0 0 10px currentColor;
+  animation-name: glitch-line-animation;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.8), 0 0 30px rgba(255, 0, 255, 0.6);
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 @keyframes glitch-line-animation {
@@ -264,9 +309,14 @@ watch(() => props.show, (newValue) => {
 
 .glitch-pixel {
   position: absolute;
-  animation: glitch-pixel-animation;
+  animation-name: glitch-pixel-animation;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
   opacity: 0;
-  box-shadow: 0 0 3px currentColor;
+  box-shadow: 0 0 5px currentColor, 0 0 10px currentColor;
+  border-radius: 1px;
+  will-change: transform, opacity;
+  transform: translateZ(0);
 }
 
 @keyframes glitch-pixel-animation {
