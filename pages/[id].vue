@@ -1,5 +1,8 @@
 <template>
   <div class="min-h-screen bg-cyber-dark">
+    <!-- Glitch Overlay -->
+    <GlitchOverlay :show="showGlitch" />
+
     <!-- Navigation -->
     <nav v-if="!isPdfMode" class="fixed top-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-b-2 border-cyber-blue">
       <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
@@ -48,6 +51,8 @@ import type { TeamMember } from '~/types/member'
 const route = useRoute()
 const router = useRouter()
 
+const showGlitch = ref(false)
+
 const isPdfMode = computed(() => {
   return route.query.pdf === 'true'
 })
@@ -67,20 +72,33 @@ const currentIndex = computed(() => {
   return members.findIndex(m => m.id === memberId.value)
 })
 
+const activateGlitch = () => {
+  showGlitch.value = true
+  setTimeout(() => {
+    showGlitch.value = false
+  }, 15000)
+}
+
 const handleNext = () => {
   if (currentIndex.value === -1) return
   
-  const nextIndex = (currentIndex.value + 1) % members.length
-  const nextMember = members[nextIndex]
-  router.push(`/${nextMember.id}`)
+  activateGlitch()
+  setTimeout(() => {
+    const nextIndex = (currentIndex.value + 1) % members.length
+    const nextMember = members[nextIndex]
+    router.push(`/${nextMember.id}`)
+  }, 100)
 }
 
 const handlePrevious = () => {
   if (currentIndex.value === -1) return
   
-  const prevIndex = currentIndex.value === 0 ? members.length - 1 : currentIndex.value - 1
-  const prevMember = members[prevIndex]
-  router.push(`/${prevMember.id}`)
+  activateGlitch()
+  setTimeout(() => {
+    const prevIndex = currentIndex.value === 0 ? members.length - 1 : currentIndex.value - 1
+    const prevMember = members[prevIndex]
+    router.push(`/${prevMember.id}`)
+  }, 100)
 }
 
 const handleKeyDown = (event: KeyboardEvent, callback: () => void) => {
@@ -93,8 +111,10 @@ const handleKeyDown = (event: KeyboardEvent, callback: () => void) => {
 // Keyboard navigation
 const handleKeyPress = (event: KeyboardEvent) => {
   if (event.key === 'ArrowRight') {
+    event.preventDefault()
     handleNext()
   } else if (event.key === 'ArrowLeft') {
+    event.preventDefault()
     handlePrevious()
   }
 }
