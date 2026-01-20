@@ -5,12 +5,12 @@ export default defineNuxtConfig({
   ssr: false,
   compatibilityDate: '2024-04-03',
   app: {
-    baseURL: process.env.NUXT_PUBLIC_BASE_URL || '/BrokenPix_Ankets/',
+    baseURL: '/BrokenPix_Ankets/',
     buildAssetsDir: 'assets'
   },
   runtimeConfig: {
     public: {
-      baseURL: process.env.NUXT_PUBLIC_BASE_URL || '/BrokenPix_Ankets/'
+      baseURL: '/BrokenPix_Ankets/'
     }
   }
 })

@@ -12,14 +12,12 @@ permissions:
   id-token: write
 
 concurrency:
-  group: "pages-${{ github.ref }}"
+  group: "pages"
   cancel-in-progress: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      environment: ${{ steps.set-baseurl.outputs.environment }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -33,21 +31,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Set baseURL based on branch
-        id: set-baseurl
-        run: |
-          if [ "${{ github.ref_name }}" = "main" ] || [ "${{ github.ref_name }}" = "master" ]; then
-            echo "baseURL=/BrokenPix_Ankets/" >> $GITHUB_OUTPUT
-            echo "environment=github-pages" >> $GITHUB_OUTPUT
-          else
-            BRANCH_NAME=$(echo "${{ github.ref_name }}" | sed 's/[^a-zA-Z0-9]/-/g' | tr '[:upper:]' '[:lower:]')
-            echo "baseURL=/BrokenPix_Ankets-preview/$BRANCH_NAME/" >> $GITHUB_OUTPUT
-            echo "environment=github-pages-preview-$BRANCH_NAME" >> $GITHUB_OUTPUT
-          fi
-
       - name: Generate static site
-        env:
-          NUXT_PUBLIC_BASE_URL: ${{ steps.set-baseurl.outputs.baseURL }}
         run: npm run generate
 
       - name: Setup Pages
@@ -60,7 +44,7 @@ jobs:
 
   deploy:
     environment:
-      name: ${{ needs.build.outputs.environment }}
+      name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     needs: build
