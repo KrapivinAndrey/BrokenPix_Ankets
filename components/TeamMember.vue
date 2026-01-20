@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-cyber-dark text-white flex items-center justify-center p-4">
+  <div class="min-h-screen bg-cyber-dark text-white flex items-start md:items-center justify-center p-4">
     <div class="max-w-4xl w-full">
       <div class="cyber-card relative overflow-hidden">
         <!-- Animated background grid -->
@@ -8,7 +8,7 @@
         </div>
 
         <!-- Content -->
-        <div class="relative z-10 p-8 md:p-12">
+        <div class="relative z-10 p-4 md:p-8 lg:p-12">
           <!-- Photo -->
           <div class="mb-8 flex justify-center">
             <div class="w-48 h-48 rounded-lg border-2 border-cyber-blue shadow-cyber-blue relative overflow-hidden bg-cyber-dark-secondary">
@@ -118,7 +118,7 @@ const handleImageError = () => {
   box-shadow: 0 0 30px rgba(0, 240, 255, 0.3), inset 0 0 30px rgba(0, 240, 255, 0.1);
   position: relative;
   animation: fade-in 0.6s ease-out;
-  height: 1000px;
+  min-height: auto;
 }
 
 .cyber-card::before {

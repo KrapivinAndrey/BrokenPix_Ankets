@@ -16,7 +16,7 @@
             Broken Pixels. Робокод. Екатеринбург
           </div>
         </div>
-        <div class="flex gap-4">
+        <div class="hidden md:flex gap-4">
           <button
             @click="handlePrevious"
             @keydown="handleKeyDown($event, handlePrevious)"
@@ -39,8 +39,34 @@
       </div>
     </nav>
 
+    <!-- Mobile Bottom Navigation -->
+    <nav v-if="!isPdfMode" class="fixed bottom-0 left-0 right-0 z-50 bg-cyber-dark-secondary/80 backdrop-blur-sm border-t-2 border-cyber-blue flex md:hidden">
+      <div class="max-w-7xl mx-auto w-full px-4 py-4">
+        <div class="flex gap-4 justify-center">
+          <button
+            @click="handlePrevious"
+            @keydown="handleKeyDown($event, handlePrevious)"
+            class="cyber-button flex-1"
+            tabindex="0"
+            aria-label="Предыдущий участник"
+          >
+            ← Предыдущий
+          </button>
+          <button
+            @click="handleNext"
+            @keydown="handleKeyDown($event, handleNext)"
+            class="cyber-button flex-1"
+            tabindex="0"
+            aria-label="Следующий участник"
+          >
+            Следующий →
+          </button>
+        </div>
+      </div>
+    </nav>
+
     <!-- Member Content -->
-    <div :class="{ 'pt-20': !isPdfMode, 'glitch-content': showGlitch }">
+    <div :class="{ 'pt-20 pb-20 md:pb-0': !isPdfMode, 'glitch-content': showGlitch }">
       <TeamMember v-if="member" :member="member" />
       <div v-else class="min-h-screen flex items-center justify-center">
         <div class="text-cyber-blue text-2xl animate-glow-pulse">
