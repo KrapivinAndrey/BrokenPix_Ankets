@@ -8,7 +8,8 @@
     "build": "nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "generate:pdfs": "tsx scripts/generate-pdfs.ts"
+    "generate:pdfs": "tsx scripts/generate-pdfs.ts",
+    "generate:photos-pdf": "tsx scripts/generate-photos-pdf.ts"
   },
   "dependencies": {
     "commander": "^13.1.0",
@@ -18,7 +19,7 @@
   "devDependencies": {
     "@nuxtjs/tailwindcss": "^6.12.0",
     "@types/node": "^25.0.3",
-    "puppeteer": "^21.0.0",
+    "puppeteer": "^24.15.0",
     "tsx": "^4.7.0",
     "typescript": "^5.5.0"
   },
