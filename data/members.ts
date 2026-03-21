@@ -29,7 +29,7 @@ export const members: TeamMember[] = [
     expectations: 'Ожидания были не очень, но все оказалось намного лучше, мы начали сплочаться'
   },
   {
-    id: 5,
+    id: 4,
     fullName: 'Хистиев Александр',
     age: 13,
     hobbies: 'Увлекаюсь Формулой 1 и болею за команду Red Bull',
@@ -38,7 +38,7 @@ export const members: TeamMember[] = [
     expectations: '-'
   },
   {
-    id: 6,
+    id: 5,
     fullName: 'Веретенников Егор',
     age: 11,
     hobbies: 'Настольные игры: энергосеть, 7 чудес, колонизаторы',
@@ -47,7 +47,7 @@ export const members: TeamMember[] = [
     expectations: 'Ожидания: я себе ничего не представлял. Реальность: много работы и все свое свободное время тратить на работу'
   },
   {
-    id: 7,
+    id: 6,
     fullName: 'Крапивин Григорий',
     age: 11,
     hobbies: 'Тафтинг, рисование',
